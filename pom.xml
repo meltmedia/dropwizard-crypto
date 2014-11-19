@@ -24,10 +24,10 @@
     <version>2-SNAPSHOT</version>
   </parent>
   <groupId>com.meltmedia.dropwizard</groupId>
-  <artifactId>dropwizard-crypto</artifactId>
+  <artifactId>dropwizard-crypto-parent</artifactId>
   <version>0.1.0-SNAPSHOT</version>
-  <packaging>jar</packaging>
-  <name>Dropwizard Crypto</name>
+  <packaging>pom</packaging>
+  <name>Dropwizard Crypto Parent</name>
   <description>A Dropwizard Bundle for encrypting configuration and data.</description>
   <url>http://github.com/meltmedia/dropwizard-crypto</url>
   <inceptionYear>2014</inceptionYear>
@@ -49,41 +49,49 @@
       </snapshots>
     </repository>
   </repositories>
-  <dependencies>
-    <dependency>
-      <groupId>com.meltmedia.jackson</groupId>
-      <artifactId>jackson-crypto</artifactId>
-      <version>0.1.0-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>io.dropwizard</groupId>
-      <artifactId>dropwizard-configuration</artifactId>
-      <version>${io.dropwizard.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>io.dropwizard</groupId>
-      <artifactId>dropwizard-core</artifactId>
-      <version>${io.dropwizard.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.11</version>
-      <scope>test</scope>
-      <exclusions>
-        <exclusion>
-          <groupId>org.hamcrest</groupId>
-          <artifactId>hamcrest-core</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-    <dependency>
-      <groupId>org.hamcrest</groupId>
-      <artifactId>hamcrest-all</artifactId>
-      <version>1.3</version>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>com.meltmedia.jackson</groupId>
+        <artifactId>jackson-crypto</artifactId>
+        <version>0.1.0-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>io.dropwizard</groupId>
+        <artifactId>dropwizard-configuration</artifactId>
+        <version>${io.dropwizard.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.dropwizard</groupId>
+        <artifactId>dropwizard-core</artifactId>
+        <version>${io.dropwizard.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>4.11</version>
+        <scope>test</scope>
+        <exclusions>
+          <exclusion>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-core</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+      <dependency>
+        <groupId>org.hamcrest</groupId>
+        <artifactId>hamcrest-all</artifactId>
+        <version>1.3</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.mockito</groupId>
+        <artifactId>mockito-all</artifactId>
+        <version>1.10.8</version>
+        <scope>test</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
   <build>
     <pluginManagement>
       <plugins>
@@ -134,53 +142,16 @@
               <property>root.directory</property>
               <project>
                 <groupId>com.meltmedia.dropwizard</groupId>
-                <artifactId>dropwizard-crypto</artifactId>
+                <artifactId>dropwizard-crypto-parent</artifactId>
               </project>
             </configuration>
           </execution>
         </executions>
       </plugin>
-      <plugin>
-        <groupId>com.googlecode.maven-java-formatter-plugin</groupId>
-        <artifactId>maven-java-formatter-plugin</artifactId>
-      </plugin>
-      <!--
-      <plugin>
-        <groupId>org.jsonschema2pojo</groupId>
-        <artifactId>jsonschema2pojo-maven-plugin</artifactId>
-        <version>0.4.4</version>
-        <configuration>
-          <sourceDirectory>${basedir}/src/main/jsonschema</sourceDirectory>
-          <outputDirectory>${project.build.directory}/generated-sources/jsonschema</outputDirectory>
-          <sourceType>jsonschema</sourceType>
-          <generateBuilders>true</generateBuilders>
-          <includeHashcodeAndEquals>true</includeHashcodeAndEquals>
-          <includeToString>true</includeToString>
-          <useCommonsLang3>true</useCommonsLang3>
-          <targetPackage>com.meltmedia.jackson.crypto</targetPackage>
-        </configuration>
-        <executions>
-          <execution>
-            <goals>
-              <goal>generate</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-        -->
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>templating-maven-plugin</artifactId>
-        <version>1.0-alpha-3</version>
-        <executions>
-          <execution>
-            <id>filter-src</id>
-            <goals>
-              <goal>filter-sources</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
     </plugins>
   </build>
+  <modules>
+    <module>bundle</module>
+    <module>example</module>
+  </modules>
 </project>

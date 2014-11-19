@@ -124,6 +124,75 @@
             </execution>
           </executions>
         </plugin>
+        <plugin>
+          <groupId>org.jsonschema2pojo</groupId>
+          <artifactId>jsonschema2pojo-maven-plugin</artifactId>
+          <version>0.4.4</version>
+          <configuration>
+            <sourceDirectory>${basedir}/src/main/jsonschema</sourceDirectory>
+            <outputDirectory>${project.build.directory}/generated-sources/jsonschema</outputDirectory>
+            <sourceType>jsonschema</sourceType>
+            <generateBuilders>true</generateBuilders>
+            <includeHashcodeAndEquals>true</includeHashcodeAndEquals>
+            <includeToString>true</includeToString>
+          </configuration>
+          <executions>
+            <execution>
+              <goals>
+                <goal>generate</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-shade-plugin</artifactId>
+          <version>2.1</version>
+          <executions>
+            <execution>
+              <phase>package</phase>
+              <goals>
+                <goal>shade</goal>
+              </goals>
+              <configuration>
+                <createDependencyReducedPom>false</createDependencyReducedPom>
+                <filters>
+                  <filter>
+                    <artifact>*:*</artifact>
+                    <excludes>
+                      <exclude>META-INF/*.SF</exclude>
+                      <exclude>META-INF/*.DSA</exclude>
+                      <exclude>META-INF/*.RSA</exclude>
+                    </excludes>
+                  </filter>
+                </filters>
+                <transformers>
+                  <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                    <mainClass>${main.class}</mainClass>
+                  </transformer>
+                  <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+                </transformers>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.skife.maven</groupId>
+          <artifactId>really-executable-jar-maven-plugin</artifactId>
+          <version>1.0.5</version>
+          <configuration>
+            <programFile>${program.file}</programFile>
+            <flags>-Djava.net.preferIPv4Stack=true</flags>
+          </configuration>
+          <executions>
+            <execution>
+              <phase>package</phase>
+              <goals>
+                <goal>really-executable-jar</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
       </plugins>
     </pluginManagement>
     <plugins>

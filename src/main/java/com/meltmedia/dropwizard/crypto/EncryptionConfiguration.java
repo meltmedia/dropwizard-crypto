@@ -64,7 +64,7 @@ public class EncryptionConfiguration {
     return saltLength;
   }
 
-  public void setSaltLength( int saltLength ) {
+  public void setSaltLength(int saltLength) {
     this.saltLength = saltLength;
   }
 
@@ -72,11 +72,11 @@ public class EncryptionConfiguration {
     return keyLength;
   }
 
-  public void setKeyLength( int keyLength ) {
+  public void setKeyLength(int keyLength) {
     this.keyLength = keyLength;
   }
 
-  public void setIterations( int iterations ) {
+  public void setIterations(int iterations) {
     this.iterations = iterations;
   }
 }

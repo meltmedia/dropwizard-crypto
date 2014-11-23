@@ -78,6 +78,10 @@ public class CryptoBundle<T extends Configuration> implements ConfiguredBundle<T
       return new CryptoBundle<T>(locator, mixins, environmentVariable);
     }
   }
+  
+  public static <T extends Configuration> Builder<T> builder() {
+    return new Builder<T>();
+  }
 
   ConfigurationLocator locator;
   Mixins mixins;
@@ -90,10 +94,6 @@ public class CryptoBundle<T extends Configuration> implements ConfiguredBundle<T
     this.locator = locator;
     this.mixins = mixins;
     this.environmentVariable = environmentVariable;
-  }
-
-  public static <T extends Configuration> Builder<T> builder() {
-    return new Builder<T>();
   }
 
   @Override
@@ -113,6 +113,9 @@ public class CryptoBundle<T extends Configuration> implements ConfiguredBundle<T
 
     // add any mixins for the configuration file.
     mixins.register(bootstrap.getObjectMapper());
+    
+    bootstrap.addCommand(new Commands.Encrypt("encrypt", "Encrypt configuration", defaultService));
+    bootstrap.addCommand(new Commands.Decrypt("decrypt", "Decrypt configuration", defaultService));
   }
 
   @Override

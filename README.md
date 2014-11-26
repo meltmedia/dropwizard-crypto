@@ -1,6 +1,6 @@
 # Dropwizard Crypto
 
-This project provides a Dropwizard Bundle that provides crytpographic utilities to an applications ObjectMapper.
+A Dropwizard bundle that adds encryption support to an applications ObjectMapper.
 
 [![Build Status](https://travis-ci.org/meltmedia/dropwizard-crypto.svg)](https://travis-ci.org/meltmedia/dropwizard-crypto)
 

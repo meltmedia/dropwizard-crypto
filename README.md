@@ -35,6 +35,8 @@ You will also need to include the project in your dependencies.
 
 ### Java
 
+Include the bundle in the `initialize` method of your application:
+
 ```
 import com.meltmedia.dropwizard.crypto.CryptoBundle;
 
@@ -43,14 +45,63 @@ import com.meltmedia.dropwizard.crypto.CryptoBundle;
 @Override
 public void initialize(Bootstrap<MyConfiguration> bootstrap) {
   bootstrap.addBundle(
-    CryptoBundle.builder().build());
+    CryptoBundle
+      .builder().build());
+}
+```
+
+And include the `@Encrypted` annotations on your Confituration object's encrypted properties:
+
+```
+@Encrypted
+public String getSecret() {
+  return secret;
 }
 ```
 
 ### Environment
 
+When running your application, define the passphrase in the environment.
+
 ```
-export DROPWIZARD_PASSPHRASE='A super secret phrase.'
+export DROPWIZARD_PASSPHRASE='correct horse battery staple'
+```
+
+### Configuration
+
+Create an unencrypted version of your configuration.
+
+```
+secret: secret
+```
+
+Then pass it through the encryption command.
+
+```
+dropwizard-app encrypt -p /secret unencrypted.yml encrypted.yml
+```
+
+This will give you an encrypted version of your config.
+
+```
+---
+secret:
+  salt: "tKD8wQ=="
+  iv: "s9hTJRaZn6fxxpA4nVfDag=="
+  value: "UZENJOltf+9EZS03AXbmeg=="
+  cipher: "aes-256-cbc"
+  keyDerivation: "pbkdf2"
+  keyLength: 256
+  iterations: 2000
+  encrypted: true
+```
+
+### Running
+
+Run any of your applications configured commands like you normally would, just pass in a version of the configuration with encrypted values.
+
+```
+dropwizard-app server encrypted.yml
 ```
 
 ## Building

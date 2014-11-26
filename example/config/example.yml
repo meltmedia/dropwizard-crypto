@@ -1,4 +1,9 @@
-server:
-  adminConnectors:
-  - type: http
-    port: 8081
+secret:
+  salt: "ANaqDQ=="
+  iv: "k4uA5F02zNE+EHusKty3WQ=="
+  value: "Xz8IIEBtdt6SEEfIn583UQ=="
+  cipher: "aes-256-cbc"
+  keyDerivation: "pbkdf2"
+  keyLength: 256
+  iterations: 2000
+  encrypted: true

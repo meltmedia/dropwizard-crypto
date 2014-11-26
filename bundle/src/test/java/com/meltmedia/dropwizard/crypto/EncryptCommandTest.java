@@ -74,8 +74,6 @@ public class EncryptCommandTest {
     
     encryptCommand.run(null, namespace);
     
-    System.out.println(output.call());
-
     JsonNode result = yamlMapper.readValue(output.call(), JsonNode.class);
     assertThat(result.at("/secret/value").isMissingNode(), equalTo(false));
   }

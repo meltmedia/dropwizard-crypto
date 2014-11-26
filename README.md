@@ -98,7 +98,7 @@ secret:
 
 ### Running
 
-Run any of your applications configured commands like you normally would, just pass in a version of the configuration with encrypted values.
+Run any of your application's configured commands like you normally would, just pass in a version of the configuration with encrypted values.
 
 ```
 dropwizard-app server encrypted.yml

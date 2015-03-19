@@ -30,10 +30,9 @@ public class CryptoApplication extends Application<CryptoConfiguration> {
 
   @Override
   public void initialize(Bootstrap<CryptoConfiguration> bootstrap) {
-    bootstrap.addBundle(CryptoBundle.builder()
-        .withMixins(mapper->{
-          mapper.addMixInAnnotations(CryptoConfiguration.class, EncryptSecretMixin.class);
-        }).build());
+    bootstrap.addBundle(CryptoBundle.builder().withMixins(mapper -> {
+      mapper.addMixInAnnotations(CryptoConfiguration.class, EncryptSecretMixin.class);
+    }).build());
   }
 
   @Override

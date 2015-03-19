@@ -108,7 +108,7 @@ public class CryptoBundle<T extends Configuration> implements ConfiguredBundle<T
             .withSaltSupplier(Salts.saltSupplier()).build();
 
     // register the service with the object mapper.
-    module = new CryptoModule().withSource(defaultService);
+    module = new CryptoModule().addSource(defaultService);
     bootstrap.getObjectMapper().registerModule(module);
 
     // add any mixins for the configuration file.
@@ -141,7 +141,7 @@ public class CryptoBundle<T extends Configuration> implements ConfiguredBundle<T
             .withIterations(dynamicConfiguration.getIterations())
             .withKeyLength(dynamicConfiguration.getKeyLength()).build();
 
-    module.withSource(configService);
+    module.addSource(configService);
   }
 
 }

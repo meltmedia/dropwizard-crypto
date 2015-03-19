@@ -8,6 +8,16 @@ A Dropwizard bundle that adds encryption support to an application's ObjectMappe
 
 ### Maven
 
+This project releases to Maven Central.  To use the bundle, simply include its dependency in your project.
+
+```
+<dependency>
+  <groupId>com.meltmedia.dropwizard</groupId>
+  <artifactId>dropwizard-crypto</artifactId>
+  <version>0.1.0</version>
+</dependency>
+```
+
 To use SNAPSHOTs of this project, you will need to include the sonatype repository in your POM.
 
 ```
@@ -21,16 +31,6 @@ To use SNAPSHOTs of this project, you will need to include the sonatype reposito
         <url>https://oss.sonatype.org/content/repositories/snapshots</url>
     </repository>
 </repositories>
-```
-
-You will also need to include the project in your dependencies.
-
-```
-<dependency>
-  <groupId>com.meltmedia.dropwizard</groupId>
-  <artifactId>dropwizard-crypto</artifactId>
-  <version>0.1.0-SNAPSHOT</version>
-</dependency>
 ```
 
 ### Java

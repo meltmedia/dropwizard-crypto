@@ -32,14 +32,13 @@ import org.junit.Test;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import com.meltmedia.jackson.crypto.EncryptedJson;
 import com.meltmedia.jackson.crypto.EncryptionService;
 import com.meltmedia.jackson.crypto.Functions;
 
 public class DecryptCommandTest {
   
   Namespace namespace;
-  EncryptionService<EncryptedJson> service;
+  EncryptionService service;
   ObjectMapper yamlMapper = new ObjectMapper(new YAMLFactory());
   
   @Before
@@ -48,7 +47,6 @@ public class DecryptCommandTest {
 
     service = EncryptionService.builder()
       .withPassphraseLookup(Functions.constPassphraseFunction("correct horse battery staple"))
-      .withEncryptedJsonSupplier(Functions.encryptedJsonSupplier())
       .withObjectMapper(new ObjectMapper())
       .build();
   }

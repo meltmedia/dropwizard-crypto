@@ -23,7 +23,6 @@ import io.dropwizard.setup.Environment;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.meltmedia.jackson.crypto.CryptoModule;
 import com.meltmedia.jackson.crypto.Defaults;
-import com.meltmedia.jackson.crypto.EncryptedJson;
 import com.meltmedia.jackson.crypto.EncryptionService;
 import com.meltmedia.jackson.crypto.Functions;
 import com.meltmedia.jackson.crypto.Salts;
@@ -33,17 +32,17 @@ public class CryptoBundle<T extends Configuration> implements ConfiguredBundle<T
   public static final String DEFAULT_ENVIRONMENT_VARIABLE = "DROPWIZARD_PASSPHRASE";
   public static final String CONFIG_SERVICE_NAME = "config";
 
-  public static interface ConfigurationLocator {
-    public EncryptionConfiguration locate(Configuration configuration);
+  public static interface ConfigurationLocator<T extends Configuration> {
+    public EncryptionConfiguration locate(T configuration);
   }
 
   public static interface Mixins {
     public void register(ObjectMapper mapper);
   }
 
-  public static class NullConfigurationLocator implements ConfigurationLocator {
+  public static class NullConfigurationLocator<T extends Configuration> implements ConfigurationLocator<T> {
     @Override
-    public EncryptionConfiguration locate(Configuration configuration) {
+    public EncryptionConfiguration locate(T configuration) {
       return null;
     }
   }
@@ -55,11 +54,11 @@ public class CryptoBundle<T extends Configuration> implements ConfiguredBundle<T
   }
 
   public static class Builder<T extends Configuration> {
-    ConfigurationLocator locator = new NullConfigurationLocator();
+    ConfigurationLocator<T> locator = new NullConfigurationLocator<T>();
     Mixins mixins = new NullMixins();
     String environmentVariable = DEFAULT_ENVIRONMENT_VARIABLE;
 
-    public Builder<T> withConfigurationLocator(ConfigurationLocator locator) {
+    public Builder<T> withConfigurationLocator(ConfigurationLocator<T> locator) {
       this.locator = locator;
       return this;
     }
@@ -83,14 +82,14 @@ public class CryptoBundle<T extends Configuration> implements ConfiguredBundle<T
     return new Builder<T>();
   }
 
-  ConfigurationLocator locator;
+  ConfigurationLocator<T> locator;
   Mixins mixins;
   String environmentVariable;
-  EncryptionService<EncryptedJson> defaultService;
-  EncryptionService<EncryptedJson> configService;
+  EncryptionService defaultService;
+  EncryptionService configService;
   CryptoModule module;
 
-  CryptoBundle(ConfigurationLocator locator, Mixins mixins, String environmentVariable) {
+  CryptoBundle(ConfigurationLocator<T> locator, Mixins mixins, String environmentVariable) {
     this.locator = locator;
     this.mixins = mixins;
     this.environmentVariable = environmentVariable;
@@ -104,7 +103,6 @@ public class CryptoBundle<T extends Configuration> implements ConfiguredBundle<T
             .withObjectMapper(bootstrap.getObjectMapper())
             .withValidator(bootstrap.getValidatorFactory().getValidator())
             .withPassphraseLookup(Functions.passphraseFunction(environmentVariable))
-            .withEncryptedJsonSupplier(Functions.encryptedJsonSupplier())
             .withSaltSupplier(Salts.saltSupplier()).build();
 
     // register the service with the object mapper.
@@ -135,13 +133,20 @@ public class CryptoBundle<T extends Configuration> implements ConfiguredBundle<T
             .withObjectMapper(environment.getObjectMapper())
             .withValidator(environment.getValidator())
             .withPassphraseLookup(Functions.passphraseFunction(dynamicConfiguration.getKeys()))
-            .withEncryptedJsonSupplier(
-                Functions.encryptedJsonSupplier(dynamicConfiguration.getCurrentKey()))
+            .withCurrentKeyName(dynamicConfiguration.getCurrentKey())
             .withSaltSupplier(Salts.saltSupplier(dynamicConfiguration.getSaltLength()))
             .withIterations(dynamicConfiguration.getIterations())
             .withKeyLength(dynamicConfiguration.getKeyLength()).build();
 
     module.addSource(configService);
+  }
+  
+  public EncryptionService getServiceFromEnvironment() {
+    return defaultService;
+  }
+  
+  public EncryptionService getServiceFromConfiguration() {
+    return configService;
   }
 
 }

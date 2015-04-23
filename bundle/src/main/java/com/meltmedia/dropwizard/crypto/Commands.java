@@ -50,9 +50,9 @@ public class Commands {
   public static final ObjectMapper MAPPER = new ObjectMapper(new YAMLFactory());
   
   static abstract class AbstractCryptoCommand extends Command {
-    EncryptionService<EncryptedJson> service;
+    EncryptionService service;
     
-    protected AbstractCryptoCommand(String name, String description, EncryptionService<EncryptedJson> service) {
+    protected AbstractCryptoCommand(String name, String description, EncryptionService service) {
       super(name, description);
       this.service = service;
     }
@@ -102,7 +102,7 @@ public class Commands {
   }
   
   public static class Encrypt extends AbstractCryptoCommand {
-    protected Encrypt(String name, String description, EncryptionService<EncryptedJson> service) {
+    protected Encrypt(String name, String description, EncryptionService service) {
       super(name, description, service);
     }
 
@@ -122,7 +122,7 @@ public class Commands {
   }
   
   public static class Decrypt extends AbstractCryptoCommand {
-    protected Decrypt(String name, String description, EncryptionService<EncryptedJson> service) {
+    protected Decrypt(String name, String description, EncryptionService service) {
       super(name, description, service);
     }
 

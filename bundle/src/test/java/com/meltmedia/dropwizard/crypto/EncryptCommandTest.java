@@ -19,37 +19,25 @@ import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.*;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.PrintStream;
-import java.io.UnsupportedEncodingException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
 import java.util.concurrent.Callable;
 
 import net.sourceforge.argparse4j.inf.Namespace;
 
-import org.apache.commons.io.IOUtils;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.fasterxml.jackson.core.JsonPointer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import com.meltmedia.jackson.crypto.Defaults;
-import com.meltmedia.jackson.crypto.EncryptedJson;
 import com.meltmedia.jackson.crypto.EncryptionService;
 import com.meltmedia.jackson.crypto.Functions;
-import com.meltmedia.jackson.crypto.Salts;
 
 import static com.meltmedia.dropwizard.crypto.Mocks.*;
 
 public class EncryptCommandTest {
   
   Namespace namespace;
-  EncryptionService<EncryptedJson> service;
+  EncryptionService service;
   ObjectMapper yamlMapper = new ObjectMapper(new YAMLFactory());
   
   @Before
@@ -58,7 +46,6 @@ public class EncryptCommandTest {
 
     service = EncryptionService.builder()
           .withPassphraseLookup(Functions.constPassphraseFunction("correct horse battery staple"))
-          .withEncryptedJsonSupplier(Functions.encryptedJsonSupplier())
           .withObjectMapper(new ObjectMapper())
             .build();
   }

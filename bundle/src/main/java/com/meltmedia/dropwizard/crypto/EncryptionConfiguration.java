@@ -19,12 +19,6 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import com.meltmedia.jackson.crypto.Defaults;
-import com.meltmedia.jackson.crypto.EncryptedJson;
-import com.meltmedia.jackson.crypto.EncryptionException;
-import com.meltmedia.jackson.crypto.EncryptionService;
-import com.meltmedia.jackson.crypto.EncryptionService.Function;
-import com.meltmedia.jackson.crypto.EncryptionService.Supplier;
-import com.meltmedia.jackson.crypto.Salts;
 
 /**
  * A configuration block for the DataEncryptionService.  This block should

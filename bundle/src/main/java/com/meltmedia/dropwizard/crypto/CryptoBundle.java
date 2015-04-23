@@ -23,7 +23,6 @@ import io.dropwizard.setup.Environment;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.meltmedia.jackson.crypto.CryptoModule;
 import com.meltmedia.jackson.crypto.Defaults;
-import com.meltmedia.jackson.crypto.EncryptedJson;
 import com.meltmedia.jackson.crypto.EncryptionService;
 import com.meltmedia.jackson.crypto.Functions;
 import com.meltmedia.jackson.crypto.Salts;
@@ -86,8 +85,8 @@ public class CryptoBundle<T extends Configuration> implements ConfiguredBundle<T
   ConfigurationLocator<T> locator;
   Mixins mixins;
   String environmentVariable;
-  EncryptionService<EncryptedJson> defaultService;
-  EncryptionService<EncryptedJson> configService;
+  EncryptionService defaultService;
+  EncryptionService configService;
   CryptoModule module;
 
   CryptoBundle(ConfigurationLocator<T> locator, Mixins mixins, String environmentVariable) {
@@ -104,7 +103,6 @@ public class CryptoBundle<T extends Configuration> implements ConfiguredBundle<T
             .withObjectMapper(bootstrap.getObjectMapper())
             .withValidator(bootstrap.getValidatorFactory().getValidator())
             .withPassphraseLookup(Functions.passphraseFunction(environmentVariable))
-            .withEncryptedJsonSupplier(Functions.encryptedJsonSupplier())
             .withSaltSupplier(Salts.saltSupplier()).build();
 
     // register the service with the object mapper.
@@ -135,8 +133,7 @@ public class CryptoBundle<T extends Configuration> implements ConfiguredBundle<T
             .withObjectMapper(environment.getObjectMapper())
             .withValidator(environment.getValidator())
             .withPassphraseLookup(Functions.passphraseFunction(dynamicConfiguration.getKeys()))
-            .withEncryptedJsonSupplier(
-                Functions.encryptedJsonSupplier(dynamicConfiguration.getCurrentKey()))
+            .withCurrentKeyName(dynamicConfiguration.getCurrentKey())
             .withSaltSupplier(Salts.saltSupplier(dynamicConfiguration.getSaltLength()))
             .withIterations(dynamicConfiguration.getIterations())
             .withKeyLength(dynamicConfiguration.getKeyLength()).build();
@@ -144,11 +141,11 @@ public class CryptoBundle<T extends Configuration> implements ConfiguredBundle<T
     module.addSource(configService);
   }
   
-  public EncryptionService<EncryptedJson> getServiceFromEnvironment() {
+  public EncryptionService getServiceFromEnvironment() {
     return defaultService;
   }
   
-  public EncryptionService<EncryptedJson> getServiceFromConfiguration() {
+  public EncryptionService getServiceFromConfiguration() {
     return configService;
   }
 

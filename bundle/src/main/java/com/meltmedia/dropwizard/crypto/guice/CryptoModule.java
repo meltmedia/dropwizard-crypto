@@ -6,7 +6,6 @@ import javax.inject.Singleton;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.meltmedia.dropwizard.crypto.CryptoBundle;
-import com.meltmedia.jackson.crypto.EncryptedJson;
 import com.meltmedia.jackson.crypto.EncryptionService;
 
 public class CryptoModule extends AbstractModule {
@@ -28,14 +27,14 @@ public class CryptoModule extends AbstractModule {
   @Provides
   @Singleton
   @Named(ENVIRONMENT_SERVICE)
-  public EncryptionService<EncryptedJson> provideServiceFromEnvironment() {
+  public EncryptionService provideServiceFromEnvironment() {
     return bundle.getServiceFromEnvironment();
   }
   
   @Provides
   @Singleton
   @Named(CONFIGURATION_SERVICE)
-  public EncryptionService<EncryptedJson> provideServiceFromConfiguration() {
+  public EncryptionService provideServiceFromConfiguration() {
     return bundle.getServiceFromConfiguration();
   }
 }

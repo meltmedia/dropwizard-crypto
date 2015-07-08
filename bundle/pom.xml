@@ -42,9 +42,6 @@
     <dependency>
       <groupId>com.google.inject</groupId>
       <artifactId>guice</artifactId>
-      <version>4.0-beta5</version>
-      <scope>compile</scope>
-      <optional>true</optional>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
@@ -55,41 +52,12 @@
       <artifactId>hamcrest-all</artifactId>
     </dependency>
     <dependency>
-        <groupId>org.mockito</groupId>
-        <artifactId>mockito-all</artifactId>
-      </dependency>
-      <dependency>
-        <groupId>commons-io</groupId>
-        <artifactId>commons-io</artifactId>
-        <scope>test</scope>
-      </dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-all</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+    </dependency>
   </dependencies>
-  <build>
-    <plugins>
-      <!--
-      <plugin>
-        <groupId>org.jsonschema2pojo</groupId>
-        <artifactId>jsonschema2pojo-maven-plugin</artifactId>
-        <version>0.4.4</version>
-        <configuration>
-          <sourceDirectory>${basedir}/src/main/jsonschema</sourceDirectory>
-          <outputDirectory>${project.build.directory}/generated-sources/jsonschema</outputDirectory>
-          <sourceType>jsonschema</sourceType>
-          <generateBuilders>true</generateBuilders>
-          <includeHashcodeAndEquals>true</includeHashcodeAndEquals>
-          <includeToString>true</includeToString>
-          <useCommonsLang3>true</useCommonsLang3>
-          <targetPackage>com.meltmedia.jackson.crypto</targetPackage>
-        </configuration>
-        <executions>
-          <execution>
-            <goals>
-              <goal>generate</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-        -->
-    </plugins>
-  </build>
 </project>

@@ -50,7 +50,7 @@ public void initialize(Bootstrap<MyConfiguration> bootstrap) {
 }
 ```
 
-And include the `@Encrypted` annotations on your Confituration object's encrypted properties:
+And include the `@Encrypted` annotations on your Configuration object's encrypted properties:
 
 ```
 @Encrypted

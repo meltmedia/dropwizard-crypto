@@ -57,7 +57,10 @@ public class CryptoBundle<T extends Configuration> implements ConfiguredBundle<T
     ConfigurationLocator<T> locator = new NullConfigurationLocator<T>();
     Mixins mixins = new NullMixins();
     String environmentVariable = DEFAULT_ENVIRONMENT_VARIABLE;
-
+    int keyStreachIterations = Defaults.KEY_STRETCH_ITERATIONS;
+    int keyLength = Defaults.KEY_LENGTH;
+    int saltLength = Defaults.SALT_LENGTH;
+    
     public Builder<T> withConfigurationLocator(ConfigurationLocator<T> locator) {
       this.locator = locator;
       return this;
@@ -72,9 +75,24 @@ public class CryptoBundle<T extends Configuration> implements ConfiguredBundle<T
       this.environmentVariable = environmentVariable;
       return this;
     }
+    
+    public Builder<T> withKeyStreachIterations( int keyStreachIterations ) {
+      this.keyStreachIterations = keyStreachIterations;
+      return this;
+    }
+    
+    public Builder<T> withKeyLength( int keyLength ) {
+      this.keyLength = keyLength;
+      return this;
+    }
+    
+    public Builder<T> withSaltLength( int saltLength ) {
+      this.saltLength = saltLength;
+      return this;
+    }
 
     public CryptoBundle<T> build() {
-      return new CryptoBundle<T>(locator, mixins, environmentVariable);
+      return new CryptoBundle<T>(locator, mixins, environmentVariable, keyStreachIterations, keyLength, saltLength);
     }
   }
   
@@ -85,14 +103,20 @@ public class CryptoBundle<T extends Configuration> implements ConfiguredBundle<T
   ConfigurationLocator<T> locator;
   Mixins mixins;
   String environmentVariable;
+  int keyStreachIterations;
+  int keyLength;
+  int saltLength;
   EncryptionService defaultService;
   EncryptionService configService;
   CryptoModule module;
 
-  CryptoBundle(ConfigurationLocator<T> locator, Mixins mixins, String environmentVariable) {
+  CryptoBundle(ConfigurationLocator<T> locator, Mixins mixins, String environmentVariable, int keyStreachIterations, int keyLength, int saltLength) {
     this.locator = locator;
     this.mixins = mixins;
     this.environmentVariable = environmentVariable;
+    this.keyStreachIterations = keyStreachIterations;
+    this.keyLength = keyLength;
+    this.saltLength = saltLength;
   }
 
   @Override
@@ -103,7 +127,10 @@ public class CryptoBundle<T extends Configuration> implements ConfiguredBundle<T
             .withObjectMapper(bootstrap.getObjectMapper())
             .withValidator(bootstrap.getValidatorFactory().getValidator())
             .withPassphraseLookup(Functions.passphraseFunction(environmentVariable))
-            .withSaltSupplier(Salts.saltSupplier()).build();
+            .withIterations(keyStreachIterations)
+            .withKeyLength(keyLength)
+            .withSaltSupplier(Salts.saltSupplier(saltLength))
+            .build();
 
     // register the service with the object mapper.
     module = new CryptoModule().addSource(defaultService);

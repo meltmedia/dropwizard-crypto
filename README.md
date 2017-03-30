@@ -14,7 +14,7 @@ This project releases to Maven Central.  To use the bundle, simply include its d
 <dependency>
   <groupId>com.meltmedia.dropwizard</groupId>
   <artifactId>dropwizard-crypto</artifactId>
-  <version>0.2.0</version>
+  <version>0.3.0</version>
 </dependency>
 ```
 

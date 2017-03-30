@@ -21,7 +21,7 @@
   <parent>
     <groupId>com.meltmedia.dropwizard</groupId>
     <artifactId>dropwizard-crypto-parent</artifactId>
-    <version>0.3.0-SNAPSHOT</version>
+    <version>0.3.0</version>
   </parent>
   <artifactId>dropwizard-crypto</artifactId>
   <packaging>jar</packaging>

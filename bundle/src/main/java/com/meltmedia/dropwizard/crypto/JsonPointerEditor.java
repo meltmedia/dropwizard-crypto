@@ -48,7 +48,11 @@ public class JsonPointerEditor {
       parentNode = currentNode;
       matchingProperty = currentPointer.getMatchingProperty();
       matchingIndex = currentPointer.getMatchingIndex();
-      currentNode = currentNode.get(matchingProperty);
+      if( currentNode instanceof ArrayNode ) {
+        currentNode = currentNode.path(matchingIndex);
+      } else {
+        currentNode = currentNode.path(matchingProperty);
+      }
       currentPointer = currentPointer.tail();
     }
     

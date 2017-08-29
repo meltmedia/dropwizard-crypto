@@ -79,5 +79,19 @@ public class EncryptCommandTest {
     JsonNode result = yamlMapper.readValue(output.call(), JsonNode.class);
     assertThat(result.at("/secret/nested/value").isMissingNode(), equalTo(false));
   }
-
+  
+  @Test
+  public void testEncryptionUnderList() throws Exception {
+    mockInput(namespace, "secret: [{nested: value}]");
+    Callable<String> output = mockOutput(namespace);
+    mockPointer(namespace, "/secret/0/nested");
+    
+    Commands.Encrypt encryptCommand = 
+      new Commands.Encrypt("encrypt", "desc", service);
+    
+    encryptCommand.run(null, namespace);
+    
+    JsonNode result = yamlMapper.readValue(output.call(), JsonNode.class);
+    assertThat(result.at("/secret/0/nested/value").isMissingNode(), equalTo(false));
+  }
 }

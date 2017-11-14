@@ -12,7 +12,7 @@ This example shows how to use the Dropwizard Encryption bundle to secure sensiti
 Before running any of the commands on the dropwizard application, you are going to need to define the encryption passphrase to use.  To set the passphrase, use the following command:
 
 ```
-export DROPWIZARD_PASSPHRASE='correct horse battery staple`
+export DROPWIZARD_PASSPHRASE='correct horse battery staple'
 ```
 Make sure to do this in each terminal that you use.
 

@@ -32,7 +32,9 @@ public class CryptoApplication extends Application<CryptoConfiguration> {
   public void initialize(Bootstrap<CryptoConfiguration> bootstrap) {
     bootstrap.addBundle(CryptoBundle.builder().withMixins(mapper -> {
       mapper.addMixInAnnotations(CryptoConfiguration.class, EncryptSecretMixin.class);
-    }).build());
+    })
+      .withKeyLength(128)
+      .build());
   }
 
   @Override

@@ -1,9 +1,8 @@
 secret:
-  salt: "ANaqDQ=="
-  iv: "k4uA5F02zNE+EHusKty3WQ=="
-  value: "Xz8IIEBtdt6SEEfIn583UQ=="
+  salt: "F0lazg=="
+  iv: "T6+wpF/P+pjlnoKBXNmcQg=="
+  value: "wPaN+hMHT7288uHIeSg/cA=="
   cipher: "aes-256-cbc"
   keyDerivation: "pbkdf2"
-  keyLength: 256
+  keyLength: 128
   iterations: 2000
-  encrypted: true
